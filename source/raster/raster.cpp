@@ -10,8 +10,8 @@ Vec4f barycentric(Vec4f *pts, Vec2f P)
 {
     Vec3f u = Cross(Vec3f(pts[2][0]-pts[0][0], pts[1][0]-pts[0][0], pts[0][0]-P[0]),
 		Vec3f(pts[2][1]-pts[0][1], pts[1][1]-pts[0][1], pts[0][1]-P[1]));
-   // if (Abs(u[2].n/u[2].d)<1) 
-    if (Abs((u[2]))<FixFrac(INTBASIS(1))) 
+    if (Abs(u[2].n/u[2].d)<1) 
+   // if (Abs((u[2]))<FixFrac(INTBASIS(1))) 
 	return Vec4f(INTBASIS(-1.0),INTBASIS(1),INTBASIS(1),INTBASIS(1)); // triangle is degenerate, in this case return smth with negative coordinates
     return Vec4f(FixFrac(INTBASIS(1))-(u.x+u.y)/u.z, u.y/u.z, u.x/u.z, INTBASIS(1));
 }

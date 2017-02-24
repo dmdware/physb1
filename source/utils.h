@@ -60,7 +60,7 @@ inline int32_t imax(const int32_t x, const int32_t y)
 	//int32_t y;   
 	//int32_t r;  // the result goes here 
 
-	return x ^ ((x ^ y) & -(x < y)); // max(x, y)
+	return x ^ ((x ^ y) & -(x < y)); // enmax(x, y)
 #endif
 }
 
@@ -74,7 +74,7 @@ inline int32_t imin(const int32_t x, const int32_t y)
 	//int32_t y;   
 	//int32_t r;  // the result goes here 
 
-	return y ^ ((x ^ y) & -(x < y)); // min(x, y)
+	return y ^ ((x ^ y) & -(x < y)); // enmin(x, y)
 #endif
 }
 
@@ -185,8 +185,8 @@ std::string ullform(uint64_t n);
 uint64_t GetTicks();
 
 #ifdef PLATFORM_WIN
-#define fmin(a,b)	min(a,b)
-#define fmax(a,b)	max(a,b)
+#define fmin(a,b)	((a)<(b)?(a):(b))
+#define fmax(a,b)	((a)>(b)?(a):(b))
 #define isnanl(a)	_isnan(a)
 #endif
 

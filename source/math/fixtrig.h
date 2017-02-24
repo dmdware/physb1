@@ -6,7 +6,7 @@
 #include "fixmath.h"
 #include "fixfrac.h"
 
-#if 0
+#if 01
 //#define TABLESZ		1024
 #define TABLESZ		RATIO_DENOM
 

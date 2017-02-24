@@ -353,6 +353,7 @@ void Draw()
 	char c[123+HYP_DIMS*9] = "";
 	float y = 16;
 
+#if 000
 	for(int ci=0; ci<HYP_DIMS; ++ci)
 	{
 		char add[123];
@@ -365,6 +366,7 @@ void Draw()
 		DrawLine(MAINFONT8, 0, 10+y, &rc, color);
 		y += 16;
 	}
+#endif
 
 #if 1
 	int rpi = 0;
@@ -409,7 +411,7 @@ void Draw()
 		}
 	}
 #endif
-#if 1
+#if 000
 	for(int gi=0; gi<1; ++gi)
 	{
 		rpi = 0;
@@ -924,18 +926,22 @@ void DownSelDims()
 
 void UpSelTg()
 {
+#if 000
 	selg = (selg+1)%MESHES;
 	HypMeshf* hm = &g[selg];
 	Vec3f to = Vec3f(hm->cen.pos[0],hm->cen.pos[1],hm->cen.pos[2]);
 	g_pcam->moveto(to);
+#endif
 }
 
 void DownSelTg()
 {
+#if 000
 	selg = (selg+MESHES-1)%MESHES;
 	HypMeshf* hm = &g[selg];
 	Vec3f to = Vec3f(hm->cen.pos[0],hm->cen.pos[1],hm->cen.pos[2]);
 	g_pcam->moveto(to);
+#endif
 }
 
 //#ifdef PLATFORM_WIN

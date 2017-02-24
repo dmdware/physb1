@@ -4,24 +4,24 @@
 #define FIXFRAC_H
 
 #include "../platform.h"
-//#include "bigInt.h"
+#include "bigInt.h"
 
-//#define INTBASIS	BigInt::Rossi
+#define INTBASIS	BigInt::Rossi
 //#define INTBASIS	uint64_t
 //#define INTBASIS	int128_t
 //typedef int64_t INTBASIS;
 //#define INTBASIS	int32_t
-typedef long double INTBASIS;
+//typedef long double INTBASIS;
 
-#define GLTYPE		GL_FLOAT
+//#define GLTYPE		GL_FLOAT
 
-#define BIGN		INTBASIS((uint64_t(0)-1)/1024/1024/1024/512)
+//#define BIGN		INTBASIS((uint64_t(0)-1)/1024/1024/1024/512)
 //#define BIGN		(uint32_t(-1)/1024/1024)
 //
 
 //#define .toDouble()	*1
 
-#if 0
+#if 01
 class FixFrac
 {
 public:
@@ -42,19 +42,23 @@ public:
 #else
 	bool neg;
 	INTBASIS n;
+	INTBASIS d;
 
 	FixFrac()
 	{
 		neg = false;
-		//n = INTBASIS(0);
+		n = INTBASIS(0);
+		d = INTBASIS(1);
 	}
 	//FixFrac(FixFrac f);
 	FixFrac(INTBASIS i);
 	FixFrac(double i);
 	FixFrac(int64_t i);
-	FixFrac(int i):FixFrac((int64_t)i)
+	FixFrac(int i)
 	{
-		
+		neg = (i<0)?true:false;
+		n = INTBASIS(i);
+		d = INTBASIS(1);
 	}
 #endif	
 
@@ -85,10 +89,11 @@ public:
 	FixFrac operator +=(const FixFrac b);
 	FixFrac operator *=(const FixFrac b);
 	FixFrac operator *=(const double b);
+	FixFrac operator /=(const FixFrac b);
 };
 #endif
 
-typedef float FixFrac;
+//typedef float FixFrac;
 
 int64_t ToBasis(FixFrac f);
 double ToBasis2(FixFrac f);
@@ -98,11 +103,13 @@ FixFrac ToFrac(INTBASIS d);
 FixFrac ToFrac(int64_t d);
 FixFrac ToFrac(int d);
 FixFrac Abs(FixFrac f);
-//FixFrac sqrtf(FixFrac f);
+FixFrac sqrtf(FixFrac f);
 FixFrac frexp(FixFrac value, int* eptr);
 FixFrac fsign(FixFrac f);
 FixFrac llmin(FixFrac a, FixFrac b);
 FixFrac llmax(FixFrac a, FixFrac b);
-//bool _isnan(FixFrac f);
+bool _isnan(FixFrac f);
+FixFrac pow(FixFrac x, FixFrac y);
+FixFrac fac(FixFrac x);
 
 #endif

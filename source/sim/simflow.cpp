@@ -9,6 +9,7 @@
 
 void Hist()
 {
+#if 000
 	return;
 	static int cn = 0;
 	cn++; 
@@ -30,6 +31,7 @@ void Hist()
 		UpdRend(hm);
 		break;
 	}
+#endif
 }
 
 void UpdCraft()
@@ -168,6 +170,8 @@ void UpdSim()
 
 	//Balance();
 
+#if 000
+
 	for(int gi=0; gi<MESHES; ++gi)
 	{
 		HypMeshf* hm = &g[gi];
@@ -270,4 +274,5 @@ void UpdSim()
 	}
 
 	Hist();
+#endif	//000
 }

@@ -88,3 +88,69 @@ FixFrac atan2(FixFrac x, FixFrac y)
 }
 #endif
 
+
+//https://en.wikibooks.org/wiki/Trigonometry/Power_Series_for_Cosine_and_Sine
+FixFrac cos(FixFrac rad)
+{
+	FixFrac r = ToFrac(1);
+	FixFrac end = ToFrac(1)/ToFrac(100000);
+	FixFrac last = ToFrac(1);
+	FixFrac i = ToFrac(2);
+
+	while(last >= end)
+	{
+		r = r - pow(rad, i) / fac(i);
+		i = i * ToFrac(2);
+		
+		last = pow(rad, i) / fac(i);
+		r = r + last;
+		i = i * ToFrac(2);
+	}
+
+	return r;
+}
+
+FixFrac sin(FixFrac rad)
+{
+	FixFrac r = ToFrac(1);
+	FixFrac end = ToFrac(1)/ToFrac(100000);
+	FixFrac last = ToFrac(1);
+	FixFrac i = ToFrac(2);
+
+	while(last >= end)
+	{
+		r = r - pow(rad, i) / fac(i);
+		i = (i-ToFrac(1)) * ToFrac(2) + ToFrac(1);
+		
+		last = pow(rad, i) / fac(i);
+		r = r + last;
+		i = (i-ToFrac(1)) * ToFrac(2) + ToFrac(1);
+	}
+}
+
+//http://math.stackexchange.com/questions/1238965/working-out-tan-x-using-sin-and-cos-expansion
+FixFrac tan(FixFrac rad)
+{
+	//sinx = cosx tanx
+	//sinx/cosx = tanx
+
+	return (sin(x)/cos(x));
+}
+
+FixFrac acos(FixFrac ratio)
+{
+}
+
+FixFrac asin(FixFrac ratio)
+{
+}
+
+FixFrac atan(FixFrac ratio)
+{
+}
+
+
+FixFrac atan2(FixFrac x, FixFrac y)
+{
+}
+

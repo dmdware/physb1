@@ -4,7 +4,38 @@
 #include "../utils.h"
 #include "fixmath.h"
 
-#if 0
+
+FixFrac pow(FixFrac x, FixFrac y)
+{
+	//y must be whole integer
+	FixFrac i = ToFrac(0);
+	FixFrac r = x;
+
+	while(i < y)
+	{
+		r = r * x;
+		i = i + ToFrac(1);
+	}
+
+	return r;
+}
+
+FixFrac fac(FixFrac x)
+{
+	//x must be whole integer
+	FixFrac i = ToFrac(x);
+	FixFrac r = ToFrac(1);
+
+	while(i > 0)
+	{
+		r = r * i;
+		i = i - ToFrac(1);
+	}
+
+	return r;
+}
+
+#if 01
 INTBASIS igcd(INTBASIS num1, INTBASIS num2)
 {
 	INTBASIS tmp;
@@ -21,14 +52,14 @@ INTBASIS igcd(INTBASIS num1, INTBASIS num2)
 
 void reduce(FixFrac *f)
 {
-#if 0
+#if 01
 	INTBASIS gcd;
 	gcd = igcd(f->n, f->d);
 	f->n /= gcd;
 	f->d /= gcd;
 #endif
 }
-#if 0
+#if 01
 FixFrac fsign(FixFrac f)
 {
 	FixFrac s = INTBASIS(1);
@@ -39,9 +70,9 @@ FixFrac fsign(FixFrac f)
 	//	s = -s;
 	//if(f.neg)
 	//	s = -s;
-	///s.neg = f.neg;
-	if(s < 0)
-		s = -s;
+	s.neg = f.neg;
+	//if(s < 0)
+	//	s = -s;
 
 	return s;
 }
@@ -53,16 +84,16 @@ FixFrac ToFrac(double d)
 	//if(d < 0)
 	//exit(0);
 		//InfoMess("<","<");
-#if 0
+#if 01
 	FixFrac f;
-	f.n = INTBASIS(d*(-1+2*(d>=0)) * RATIO_DENOM);
+	//f.n = INTBASIS(d*(-1+2*(d>=0)) * RATIO_DENOM);
 	if((d)<(0))
 		f.neg = true;
-#else
+#elif 0
 	FixFrac f = d;
 #endif
-	//f.n = d * 10000000000;
-	//f.d = 10000000000;
+	f.n = INTBASIS( ((f.neg)?-1:1)*d * 10000000000);
+	f.d = 10000000000;
 	return f;
 }
 #endif
@@ -74,7 +105,11 @@ FixFrac ToFrac(int64_t d)
 	if((d)<(0))
 		f.neg = true;
 #else
-	FixFrac f = d;
+	FixFrac f;
+	if(d<0)
+		f.neg = true;
+	f.n = INTBASIS( ((f.neg)?-1:1)*d );
+	//FixFrac f = d;
 #endif
 	//f.n = d * 10000000000;
 	//f.d = 10000000000;
@@ -83,14 +118,20 @@ FixFrac ToFrac(int64_t d)
 
 FixFrac ToFrac(int d)
 {
-	return ToFrac((int64_t)d);
+	FixFrac f;
+	if(d<0)
+		f.neg = true;
+	f.n = INTBASIS( ((f.neg)?-1:1)*d );
+	return f;
 }
 #if 1
 FixFrac ToFrac(INTBASIS d)
 {
 	FixFrac f;
 	//f.n = d * INTBASIS(RATIO_DENOM);
-	f = d;
+	f.n = d;
+	f.d = 1;
+	f.neg = false;
 	//if(fsign(d)<0)
 	//	f.neg = true;
 	//f.n = d * 10000000000;
@@ -105,9 +146,9 @@ FixFrac Abs(FixFrac f)
 	//if(f.d < 0)
 	//	f.d = -f.d;
 	//f.n = INTBASIS(1);
-	///f.neg = false;
-	if(f < 0)
-		f = -f;
+	f.neg = false;
+	//if(f < 0)
+	//	f = -f;
 	return f;
 }
 
@@ -116,21 +157,21 @@ int64_t ToBasis(FixFrac f)
 	//removes n/0 possibility
 	//f = simplify(f);
 	//return (int64_t)((f.n / INTBASIS(RATIO_DENOM))/*.toDouble()*/) * (-1+2*(int)f.neg);
-	//return f.n/f.d;
-	return f;
+	return ((f.neg?-1:1)*f.n.toDouble()/f.d.toDouble());
+	//return f;
 }
 
 //preserves fractional
 double ToBasis2(FixFrac f)
 {
-	return f;
+	return ((f.neg?-1:1)*f.n/f.d).toDouble();
 	//return (double)f.n/*.toDouble()*/ / (double)RATIO_DENOM * (-1+2*(int)f.neg);
 }
 
 FixFrac llmin(FixFrac a, FixFrac b)
 {
 #ifdef PLATFORM_WIN
-	return min(a,b);
+	return enmin(a,b);
 #else
 	return std::min(a,b);
 #endif
@@ -140,7 +181,7 @@ FixFrac llmin(FixFrac a, FixFrac b)
 FixFrac llmax(FixFrac a, FixFrac b)
 {
 #ifdef PLATFORM_WIN
-	return max(a,b);
+	return enmax(a,b);
 #else
 	return std::max(a,b);
 #endif
@@ -148,7 +189,7 @@ FixFrac llmax(FixFrac a, FixFrac b)
 }
 
 //http://stackoverflow.com/questions/19611198/finding-square-root-without-using-sqrt-function
-#if 0
+#if 01
 FixFrac sqrtf(FixFrac num)
 {
 #if 1
@@ -201,7 +242,7 @@ FixFrac sqrtf(FixFrac x) {
 }
 #endif
 
-#if 0
+#if 01
 //https://people.freebsd.org/~jake/frexp.c
 /*
  * Split the given value into a FixFrac in the range [0.5, 1.0) and
@@ -237,7 +278,7 @@ frexp(FixFrac value, int* eptr)
 }
 #endif
 
-#if 0
+#if 01
 FixFrac simplify(FixFrac f)
 {
 	if(f.d == 0)
@@ -260,7 +301,7 @@ FixFrac simplify(FixFrac f)
 }
 #endif
 
-#if 0
+#if 01
 bool _isnan(FixFrac f)
 {
 	return false;
@@ -271,7 +312,7 @@ bool _isnan(FixFrac f)
 	//{
 	//	*this = f;
 	//}
-	#if 0
+	#if 01
 	FixFrac::FixFrac(int64_t i)
 	{
 		*this = ToFrac((i));
@@ -612,5 +653,10 @@ bool _isnan(FixFrac f)
 	FixFrac FixFrac::operator*=( const double b)
 	{
 		return (*this) = (*this)*ToFrac(b);
+	}
+	
+	FixFrac FixFrac::operator/=( const FixFrac b)
+	{
+		return (*this) = (*this)/(b);
 	}
 #endif

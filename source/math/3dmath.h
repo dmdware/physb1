@@ -85,7 +85,7 @@ inline int32_t Diag(int32_t x, int32_t y)
 /*
     dx = abs(node.x - goal.x)
     dy = abs(node.y - goal.y)
-    return D * (dx + dy) + (D2 - 2 * D) * min(dx, dy)
+    return D * (dx + dy) + (D2 - 2 * D) * enmin(dx, dy)
 
 	D2 = 3
 	D = 2

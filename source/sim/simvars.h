@@ -21,9 +21,9 @@
 	//for(int gi=0; gi<pow(GRID,HYP_DIM); ++gi)
 	//for(int gi=0; gi<GRIDIS; ++gi)
 
-extern HypMeshf g[MESHES];
+//extern HypMeshf g[MESHES];
 extern HypMeshf axg[HYP_DIMS*2];
-extern HypMeshf gg[GRIDIS];
+//extern HypMeshf gg[GRIDIS];
 extern std::list<HypVecf> hh;
 extern int selgg;
 extern int selg;

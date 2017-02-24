@@ -8,9 +8,9 @@
 //#define HYP_DIMS	3
 //#define REND_3PT_INS	1
 //
-#define HYP_DIMS	4
-#define REND_3PT_INS	4	//4 3-plane intersections = 4 points
-//#define REND_3PT_INS	1
+#define HYP_DIMS	3
+//#define REND_3PT_INS	4	//4 3-plane intersections = 4 points
+#define REND_3PT_INS	1
 //123,124,134,234
 //#define HYP_DIMS	5
 //#define REND_3PT_INS	10
@@ -22,7 +22,7 @@
 //#define REND_3PT_INS	35
 //123,124,125,126,127,134,135,136,137,145,146,147,156,157,167,234,235,236,237,245,246,247,256,257,267,345,346,347,356,357,367,456,457,467,567
 
-#define RESERVEDIMS	1
+#define RESERVEDIMS	0
 
 #define SECGV		((INTBASIS)(1.0/30.0))
 

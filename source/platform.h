@@ -297,6 +297,8 @@ typedef int16_t WORD;
 
 #ifdef PLATFORM_WIN
 //#define _isnan(x) (x!=x)
+#undef min
+#undef max
 #endif
 
 #ifdef PLATFORM_MAC

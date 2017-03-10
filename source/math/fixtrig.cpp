@@ -137,20 +137,161 @@ FixFrac tan(FixFrac rad)
 	return (sin(x)/cos(x));
 }
 
+#define ATRIGSTEPS	10000000
 FixFrac acos(FixFrac ratio)
 {
+	//range: 0, pi
+
+/*
+Find: acos(a) = Φ, a>=0
+
+Given: a
+a = xf
+yf = √(1 - xf^2)
+0≤Φ≤π/2
+x0 = 1
+y0 = 0
+
+Then:
+
+lim n→∞ ( Σi=1 to n ( √( (xi - xi-1)^2 + (yi - yi-1)^2 ) ) )
+
+x(i) = x0 - xf*i/n
+
+y(i) = √( 1 - x(i)^2 )
+*/
+
+	if(ratio >= FixFrac(0))
+	{
+		FixFrac n = FixFrac(ATRIGSTEPS);
+		FixFrac i = FixFrac(0);
+		FixFrac a = FixFrac(a);
+
+		FixFrac lastx = FixFrac(1);
+		FixFrac lasty = FixFrac(0);
+
+		while(i < n)
+		{
+			FixFrac cury = i/n;
+			FixFrac curx = sqrtf( FixFrac(1) - cury*cury );
+
+			a = a + sqrtf( (curx-lastx)*(curx-lastx) + (cury-lasty)*(cury-lasty) );
+
+			i=i+FixFrac(1);
+
+			lastx = curx;
+			lasty = cury;
+		}
+
+		return a;
+	}
+
 }
 
 FixFrac asin(FixFrac ratio)
 {
+	//range: -pi/2 to pi/2
+
+/*
+Find: asin(o) = Φ, o>=0
+
+Given: o
+o = yf
+xf = √(1 - yf^2)
+0≤Φ≤π/2
+x0 = 1
+y0 = 0
+
+Then:
+
+lim n→∞ ( Σi=1 to n ( √( (xi - xi-1)^2 + (yi - yi-1)^2 ) ) )
+
+y(i) = y0 + yf*i/n
+
+x(i) = √( 1 - y(i)^2 )
+*/
+
+	if(ratio >= FixFrac(0))
+	{
+		FixFrac n = FixFrac(ATRIGSTEPS);
+		FixFrac i = FixFrac(0);
+		FixFrac a = FixFrac(a);
+
+		FixFrac lastx = FixFrac(1);
+		FixFrac lasty = FixFrac(0);
+
+		while(i < n)
+		{
+			FixFrac cury = i/n;
+			FixFrac curx = sqrtf( FixFrac(1) - cury*cury );
+
+			a = a + sqrtf( (curx-lastx)*(curx-lastx) + (cury-lasty)*(cury-lasty) );
+
+			i=i+FixFrac(1);
+
+			lastx = curx;
+			lasty = cury;
+		}
+
+		return a;
+	}
+/*
+Find: asin(o) = Φ, o<0
+
+Given: o
+o = yf
+xf = √(1 - yf^2)
+-π/2≤Φ≤0
+x0 = 1
+y0 = 0
+
+Then:
+
+lim n→∞ ( Σi=1 to n ( -√( (xi - xi-1)^2 + (yi - yi-1)^2 ) ) )
+
+y(i) = y0 + yf*i/n
+
+x(i) = √( 1 - y(i)^2 )
+*/
+
+	else
+	{
+		FixFrac n = FixFrac(ATRIGSTEPS);
+		FixFrac i = FixFrac(0);
+		FixFrac a = FixFrac(a);
+
+		FixFrac lastx = FixFrac(1);
+		FixFrac lasty = FixFrac(0);
+
+		while(i < n)
+		{
+			FixFrac cury = FixFrac(0) - i/n;
+			FixFrac curx = sqrtf( FixFrac(1) - cury*cury );
+
+			a = a - sqrtf( (curx-lastx)*(curx-lastx) + (cury-lasty)*(cury-lasty) );
+
+			i=i+FixFrac(1);
+
+			lastx = curx;
+			lasty = cury;
+		}
+
+		return a;
+	}
 }
 
 FixFrac atan(FixFrac ratio)
 {
+	//range: -pi/2 to pi/2
+
+	return asin(ratio);
 }
 
 
 FixFrac atan2(FixFrac x, FixFrac y)
 {
+	//range: -pi to pi
+
+	return atan(x);
 }
 

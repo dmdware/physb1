@@ -39,8 +39,8 @@ FixFrac fac(FixFrac x)
 INTBASIS igcd(INTBASIS num1, INTBASIS num2)
 {
 	INTBASIS tmp;
-	num1 = llAbs(num1);
-	num2 = llAbs(num2);
+	num1 = Abs(num1);
+	num2 = Abs(num2);
 	while (num1 > 0) {
 		tmp = num1;
 		num1 = num2 % num1;
@@ -291,8 +291,8 @@ FixFrac simplify(FixFrac f)
 		return f;
 	}
 	reduce(&f);
-	while( (llAbs(f.n) > BIGN || llAbs(f.d) > BIGN) && 
-		(llAbs(f.n) > 2 && llAbs(f.d) > 2) )
+	while( (Abs(f.n) > BIGN || Abs(f.d) > BIGN) && 
+		(Abs(f.n) > 2 && Abs(f.d) > 2) )
 	{
 		f.n >>= 1;
 		f.d >>= 1;
@@ -421,12 +421,13 @@ bool _isnan(FixFrac f)
 		c.n = b2.n * a2.n;
 		c.d = b2.d * a2.d;
 		return simplify(c);
-#endif
+#endif	//TODO all these:
 		FixFrac r;
 		r.n = n * b.n / INTBASIS(RATIO_DENOM);
 		r.neg = this->neg != b.neg;
 		return r;
 	}
+	//http://stackoverflow.com/questions/32199574/error-c2678-binary-no-operator-found-which-takes-a-left-hand-operand-of
 	FixFrac FixFrac::operator*(const double b) const
 	{
 		FixFrac r;

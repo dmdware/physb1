@@ -23,7 +23,7 @@ FixFrac pow(FixFrac x, FixFrac y)
 FixFrac fac(FixFrac x)
 {
 	//x must be whole integer
-	FixFrac i = ToFrac(x);
+	FixFrac i = (x);
 	FixFrac r = ToFrac(1);
 
 	while(i > 0)
@@ -39,9 +39,11 @@ FixFrac fac(FixFrac x)
 INTBASIS igcd(INTBASIS num1, INTBASIS num2)
 {
 	INTBASIS tmp;
-	num1 = Abs(num1);
-	num2 = Abs(num2);
-	while (num1 > 0) {
+	//num1 = Abs(num1);
+	//num2 = Abs(num2);
+	num1 = (num1);
+	num2 = (num2);
+	while (num1 > INTBASIS(0)) {
 		tmp = num1;
 		num1 = num2 % num1;
 		num2 = tmp;
@@ -55,8 +57,8 @@ void reduce(FixFrac *f)
 #if 01
 	INTBASIS gcd;
 	gcd = igcd(f->n, f->d);
-	f->n /= gcd;
-	f->d /= gcd;
+	f->n = f->n / gcd;
+	f->d = f->d / gcd;
 #endif
 }
 #if 01
@@ -93,7 +95,7 @@ FixFrac ToFrac(double d)
 	FixFrac f = d;
 #endif
 	f.n = INTBASIS( ((f.neg)?-1:1)*d * 10000000000);
-	f.d = 10000000000;
+	f.d = INTBASIS(10000000000);
 	return f;
 }
 #endif
@@ -130,7 +132,7 @@ FixFrac ToFrac(INTBASIS d)
 	FixFrac f;
 	//f.n = d * INTBASIS(RATIO_DENOM);
 	f.n = d;
-	f.d = 1;
+	f.d = INTBASIS(1);
 	f.neg = false;
 	//if(fsign(d)<0)
 	//	f.neg = true;
@@ -164,7 +166,7 @@ int64_t ToBasis(FixFrac f)
 //preserves fractional
 double ToBasis2(FixFrac f)
 {
-	return ((f.neg?-1:1)*f.n/f.d).toDouble();
+	return ((f.neg?-1:1)*f.n.toDouble()/f.d.toDouble());
 	//return (double)f.n/*.toDouble()*/ / (double)RATIO_DENOM * (-1+2*(int)f.neg);
 }
 
@@ -242,7 +244,7 @@ FixFrac sqrtf(FixFrac x) {
 }
 #endif
 
-#if 01
+#if 0
 //https://people.freebsd.org/~jake/frexp.c
 /*
  * Split the given value into a FixFrac in the range [0.5, 1.0) and
@@ -281,13 +283,13 @@ frexp(FixFrac value, int* eptr)
 #if 01
 FixFrac simplify(FixFrac f)
 {
-	if(f.d == 0)
+	if(f.d == INTBASIS(0))
 	{
-		f.d = 1;
-		if(f.n > 0)
-			f.n = BIGN-1;
-		else
-			f.n = -BIGN+1;
+		f.d = INTBASIS(1);
+		//if(f.n > INTBASIS(0))
+		//	f.n = BIGN-1;
+		//else
+		//	f.n = -BIGN+1;
 		return f;
 	}
 	reduce(&f);
@@ -326,6 +328,12 @@ bool _isnan(FixFrac f)
 	FixFrac::FixFrac(double i)
 	{
 		*this = ToFrac(i);
+	}
+	FixFrac::FixFrac(int i)
+	{
+		neg = (i<0)?true:false;
+		n = INTBASIS(i);
+		d = INTBASIS(1);
 	}
 	bool FixFrac::operator==(const FixFrac b) const
 	{
@@ -412,7 +420,7 @@ bool _isnan(FixFrac f)
 		return (*this)<b||(*this)==b;
 	}
 
-	FixFrac FixFrac::operator*(const FixFrac b) const
+	FixFrac operator*(const FixFrac a, const FixFrac b)
 	{
 #if 0
 		FixFrac a2 = simplify(*this);
@@ -423,20 +431,22 @@ bool _isnan(FixFrac f)
 		return simplify(c);
 #endif	//TODO all these:
 		FixFrac r;
-		r.n = n * b.n / INTBASIS(RATIO_DENOM);
-		r.neg = this->neg != b.neg;
+		r.n = a.n * b.n / INTBASIS(RATIO_DENOM);
+		r.d = a.d * b.d;
+		r.neg = (a.neg != b.neg);
 		return r;
 	}
 	//http://stackoverflow.com/questions/32199574/error-c2678-binary-no-operator-found-which-takes-a-left-hand-operand-of
-	FixFrac FixFrac::operator*(const double b) const
+	FixFrac operator*(const FixFrac a, const double b)
 	{
 		FixFrac r;
-		r.n = n * fabs(b);
-		r.neg = r.neg!=(b<0);
+		r.n = INTBASIS( a.n.toDouble() * b / INTBASIS(RATIO_DENOM).toDouble() );
+		r.d = INTBASIS( a.d.toDouble() * b );
+		r.neg = (a.neg != (b<0));
 		return r;
 		//return (*this)*FixFrac(b);
 	}
-	FixFrac FixFrac::operator/(const FixFrac b) const
+	FixFrac operator/(const FixFrac a, const FixFrac b)
 	{
 #if 0
 		FixFrac a2 = simplify(*this);
@@ -447,12 +457,13 @@ bool _isnan(FixFrac f)
 		return simplify(c);
 #endif
 		FixFrac r;
-		if(b.n == INTBASIS(0))
+		if(b.n == INTBASIS(0) || a.n == INTBASIS(0))
 			//r.n = BIGN * fsign(r.n);
 			r.n = INTBASIS(0);
 		else
-			r.n = n * RATIO_DENOM / b.n;
-		r.neg = neg != b.neg;
+			r.n = a.n * RATIO_DENOM / b.n;
+		r.d = a.d * RATIO_DENOM / b.d;
+		r.neg = (a.neg != b.neg);
 		return r;
 	}
 	//b%dv = b-(b/dv)*dv
@@ -593,10 +604,10 @@ bool _isnan(FixFrac f)
 
 
 	}
-	//FixFrac operator-() const
-	//{
-	//	return (FixFrac(0)-*this);
-//	}
+	FixFrac operator-(const FixFrac a)
+	{
+		return (FixFrac(0)-a);
+	}
 	FixFrac FixFrac::operator+(const FixFrac b) const
 	{
 #if 0

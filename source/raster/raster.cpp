@@ -202,8 +202,8 @@ void RasterPt(Matrix* mvp, FixFrac* screendepths, LoadedTex* screencolors, Vec3f
 	texcoord.x = texcoord.x * FixFrac(INTBASIS(tex->sizex));
 	texcoord.y = texcoord.y * FixFrac(INTBASIS(tex->sizey));
 
-	texcoord.x = ((int64_t)texcoord.x % tex->sizex);
-	texcoord.y = ((int64_t)texcoord.y % tex->sizey);
+	texcoord.x = texcoord.x % ToFrac(tex->sizex);
+	texcoord.y = texcoord.y % ToFrac(tex->sizey);
 
 	int ti = (ToBasis(texcoord.x)+ToBasis(texcoord.y)*tex->sizex)*tex->channels;
 
@@ -260,8 +260,8 @@ void RasterLine(Matrix* mvp, FixFrac* screendepths, LoadedTex* screencolors, Vec
 		subtexcoord.x = subtexcoord.x * FixFrac(INTBASIS(tex->sizex));
 		subtexcoord.y = subtexcoord.y * FixFrac(INTBASIS(tex->sizey));
 
-		subtexcoord.x = ((int64_t)subtexcoord.x % tex->sizex);
-		subtexcoord.y = ((int64_t)subtexcoord.y % tex->sizey);
+		subtexcoord.x = subtexcoord.x % ToFrac(tex->sizex);
+		subtexcoord.y = subtexcoord.y % ToFrac(tex->sizey);
 
 		int ti = (ToBasis(subtexcoord.x)+ToBasis(subtexcoord.y)*tex->sizex)*tex->channels;
 
@@ -358,8 +358,8 @@ void RasterTri(Matrix* mvp, FixFrac* screendepths, LoadedTex* screencolors, Vec3
 			subtexcoord.x = subtexcoord.x * FixFrac(INTBASIS(tex->sizex));
 			subtexcoord.y = subtexcoord.y * FixFrac(INTBASIS(tex->sizey));
 
-			subtexcoord.x = ((int64_t)subtexcoord.x % tex->sizex);
-			subtexcoord.y = ((int64_t)subtexcoord.y % tex->sizey);
+			subtexcoord.x = subtexcoord.x % ToFrac(tex->sizex);
+			subtexcoord.y = subtexcoord.y % ToFrac(tex->sizey);
 
 			int ti = (ToBasis(subtexcoord.x)+ToBasis(subtexcoord.y)*tex->sizex)*tex->channels;
 

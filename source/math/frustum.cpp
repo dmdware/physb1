@@ -33,9 +33,9 @@ enum PlaneData
 	D = 3				// The distance the plane is from the origin
 };
 
-void NormalizePlane(float frustum[6][4], int32_t side)
+void NormalizePlane(FixFrac frustum[6][4], int side)
 {
-	float magnitude = (float)sqrtf( frustum[side][A] * frustum[side][A] +
+	FixFrac magnitude = (FixFrac)sqrtf( frustum[side][A] * frustum[side][A] +
 									frustum[side][B] * frustum[side][B] +
 									frustum[side][C] * frustum[side][C] );
 
@@ -78,11 +78,11 @@ void Frustum::construct(const Plane3f left, const Plane3f right, const Plane3f t
 	m_Frustum[BACK][D] = back.m_d;
 }
 
-void Frustum::construct(const float* proj, const float* modl)
+void Frustum::construct(const FixFrac* proj, const FixFrac* modl)
 {
 	//float   proj[16];
 	//float   modl[16];
-	float   clip[16];	// clipping planes
+	FixFrac   clip[16];	// clipping planes
 
 	//glGetFloatv( GL_PROJECTION_MATRIX, proj );
 	//glGetFloatv( GL_MODELVIEW_MATRIX, modl );
@@ -172,7 +172,7 @@ void Frustum::construct(const float* proj, const float* modl)
 }
 
 
-bool Frustum::pointin( float x, float y, float z )
+bool Frustum::pointin( FixFrac x, FixFrac y, FixFrac z )
 {
 	for(int32_t i = 0; i < 6; i++ )
 	{
@@ -187,7 +187,7 @@ bool Frustum::pointin( float x, float y, float z )
 	return true;
 }
 
-bool Frustum::spherein( float x, float y, float z, float radius )
+bool Frustum::spherein( FixFrac x, FixFrac y, FixFrac z, FixFrac radius )
 {
 	for(int32_t i = 0; i < 6; i++ )
 	{
@@ -204,7 +204,7 @@ bool Frustum::spherein( float x, float y, float z, float radius )
 
 
 // This determines if a cube is in or around our frustum by it's center and 1/2 it's length
-bool Frustum::cubein( float x, float y, float z, float size )
+bool Frustum::cubein( FixFrac x, FixFrac y, FixFrac z, FixFrac size )
 {
 	// Basically, what is going on is, that we are given the center of the cube,
 	// and half the length.  Think of it like a radius.  Then we checking each point
@@ -244,7 +244,7 @@ bool Frustum::cubein( float x, float y, float z, float size )
 
 
 // This determines if a BOX is in or around our frustum by it's std::min and std::max points
-bool Frustum::boxin( float x, float y, float z, float x2, float y2, float z2)
+bool Frustum::boxin( FixFrac x, FixFrac y, FixFrac z, FixFrac x2, FixFrac y2, FixFrac z2)
 {
 	// Go through all of the corners of the box and check then again each plane
 	// in the frustum.  If all of them are behind one of the planes, then it most
@@ -269,7 +269,7 @@ bool Frustum::boxin( float x, float y, float z, float x2, float y2, float z2)
 }
 
 // Doesn't check front and back plane
-bool Frustum::boxin2( float x, float y, float z, float x2, float y2, float z2)
+bool Frustum::boxin2( FixFrac x, FixFrac y, FixFrac z, FixFrac x2, FixFrac y2, FixFrac z2)
 {
 	// Go through all of the corners of the box and check then again each plane
 	// in the frustum.  If all of them are behind one of the planes, then it most

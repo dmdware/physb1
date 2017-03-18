@@ -151,15 +151,16 @@ void AddSph(HypMeshf* hm, FixFrac i, FixFrac* cen, FixFrac mass)
 			{
 				for(int ax=0; ax<HYP_DIMS; ++ax)
 					//hv.pos[ax] = rand()%10-5;
-					hv.pos[ax] = 0;
+					hv.pos[ax] = ToFrac((int)0);
 
-				FixFrac xf = cos( ToFrac( (double)(M_PI * 2.0f * (float)x / 30.0f) ) ) * ToFrac(KMSC*i) ;
+				FixFrac xf = cos( ToFrac( (double)(M_PI * 2.0f * (float)x / 30.0f) ) ) *
+					(ToFrac(KMSC)*i) ;
 				HypVecf* prev = NULL;
 //return;
 
 				for(int z=0; z<30; z++)
 				{
-					FixFrac yf = sin( ToFrac( (M_PI * 2.0f * x / 30.0f) ) ) * ToFrac(KMSC*i);
+					FixFrac yf = sin( ToFrac( (M_PI * 2.0f * x / 30.0f) ) ) * ToFrac(KMSC)*i;
 
 					Vec3f vf(xf,yf,0);
 					vf = RotateAround(vf, Vec3f(0,0,0), ToFrac(M_PI * 2.0f * z/30.f),

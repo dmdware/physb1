@@ -43,10 +43,10 @@ void DrawHypVecs(std::list<HypVecf>* hl, float sz)
 
 #if 1
 			glUniform4f(s->slot[SSLOT_COLOR], 
-			REND3PTINSCOLORS[rpi].rgba[0], 
-			REND3PTINSCOLORS[rpi].rgba[1], 
-			REND3PTINSCOLORS[rpi].rgba[2], 
-			REND3PTINSCOLORS[rpi].rgba[3]/ToFrac(3.0) *  a);
+			ToBasis2(REND3PTINSCOLORS[rpi].rgba[0]), 
+			ToBasis2(REND3PTINSCOLORS[rpi].rgba[1]), 
+			ToBasis2(REND3PTINSCOLORS[rpi].rgba[2]), 
+			ToBasis2(REND3PTINSCOLORS[rpi].rgba[3]/ToFrac(3.0) *  a));
 #endif
 			v[0] = pit->rend[rpi];
 
@@ -61,10 +61,10 @@ void DrawHypVecs(std::list<HypVecf>* hl, float sz)
 				FixFrac a = FixFrac(1.0f) * cp->age - MAG_VEC3F( g_pcam->m_pos - pit->rend[rpi])/MAX_DISTANCE;
 #if 1
 				glUniform4f(s->slot[SSLOT_COLOR], 
-				REND3PTINSCOLORS[rpi].rgba[0], 
-				REND3PTINSCOLORS[rpi].rgba[1], 
-				REND3PTINSCOLORS[rpi].rgba[2], 
-				REND3PTINSCOLORS[rpi].rgba[3]/2.0f * a);
+				ToBasis2(REND3PTINSCOLORS[rpi].rgba[0]), 
+				ToBasis2(REND3PTINSCOLORS[rpi].rgba[1]), 
+				ToBasis2(REND3PTINSCOLORS[rpi].rgba[2]), 
+				ToBasis2(REND3PTINSCOLORS[rpi].rgba[3]/2.0f * a));
 #endif
 				v[0] = pit->rend[rpi];
 				v[1] = cp->rend[rpi];
@@ -81,10 +81,10 @@ void DrawHypVecs(std::list<HypVecf>* hl, float sz)
 				FixFrac a = FixFrac(1.0f) * cp->age - MAG_VEC3F( g_pcam->m_pos - pit->rend[rpi])/MAX_DISTANCE;
 #if 1
 				glUniform4f(s->slot[SSLOT_COLOR], 
-				REND3PTINSCOLORS[rpi].rgba[0], 
-				REND3PTINSCOLORS[rpi].rgba[1], 
-				REND3PTINSCOLORS[rpi].rgba[2], 
-				REND3PTINSCOLORS[rpi].rgba[3]/2.0f * a);
+				ToBasis2(REND3PTINSCOLORS[rpi].rgba[0]), 
+				ToBasis2(REND3PTINSCOLORS[rpi].rgba[1]), 
+				ToBasis2(REND3PTINSCOLORS[rpi].rgba[2]), 
+				ToBasis2(REND3PTINSCOLORS[rpi].rgba[3]/2.0f * a));
 #endif
 				v[0] = pit->rend[rpi];
 				v[1] = cp->rend[rpi];
@@ -188,10 +188,10 @@ void DrawHypMesh(HypMeshf* hm)
 			FixFrac a = ToFrac(1.0) -  MAG_VEC3F( g_pcam->m_pos - pit->rend[rpi])/MAX_DISTANCE;
 #if 1
 			glUniform4f(s->slot[SSLOT_COLOR], 
-			REND3PTINSCOLORS[rpi].rgba[0], 
-			REND3PTINSCOLORS[rpi].rgba[1], 
-			REND3PTINSCOLORS[rpi].rgba[2], 
-			REND3PTINSCOLORS[rpi].rgba[3]/ToFrac(1.0) *  a);
+			ToBasis2(REND3PTINSCOLORS[rpi].rgba[0]), 
+			ToBasis2(REND3PTINSCOLORS[rpi].rgba[1]), 
+			ToBasis2(REND3PTINSCOLORS[rpi].rgba[2]), 
+			ToBasis2(REND3PTINSCOLORS[rpi].rgba[3]/ToFrac(1.0) *  a));
 #endif
 
 			v[0] = pit->rend[rpi];
@@ -407,10 +407,10 @@ void DrawHypMesh(HypMeshf* hm, int rpi)
 			FixFrac a = ToFrac(1.0) -  MAG_VEC3F( g_pcam->m_pos - pit->rend[rpi])/MAX_DISTANCE;
 #if 1
 			glUniform4f(s->slot[SSLOT_COLOR], 
-			REND3PTINSCOLORS[rpi].rgba[0], 
-			REND3PTINSCOLORS[rpi].rgba[1], 
-			REND3PTINSCOLORS[rpi].rgba[2], 
-			REND3PTINSCOLORS[rpi].rgba[3]/ToFrac(1.0) *  a);
+			ToBasis2(REND3PTINSCOLORS[rpi].rgba[0]), 
+			ToBasis2(REND3PTINSCOLORS[rpi].rgba[1]), 
+			ToBasis2(REND3PTINSCOLORS[rpi].rgba[2]), 
+			ToBasis2(REND3PTINSCOLORS[rpi].rgba[3]/ToFrac(1.0) *  a));
 #endif
 #if 0	
 			Vec4f color = Vec4f(
@@ -459,10 +459,10 @@ void DrawHypMesh(HypMeshf* hm, int rpi)
 				FixFrac a = FixFrac(1.0f) * cp->age - MAG_VEC3F( g_pcam->m_pos - pit->rend[rpi])/MAX_DISTANCE;
 #if 1
 				glUniform4f(s->slot[SSLOT_COLOR], 
-				REND3PTINSCOLORS[rpi].rgba[0], 
-				REND3PTINSCOLORS[rpi].rgba[1], 
-				REND3PTINSCOLORS[rpi].rgba[2], 
-				REND3PTINSCOLORS[rpi].rgba[3]/2.0f * a);
+				ToBasis2(REND3PTINSCOLORS[rpi].rgba[0]), 
+				ToBasis2(REND3PTINSCOLORS[rpi].rgba[1]), 
+				ToBasis2(REND3PTINSCOLORS[rpi].rgba[2]), 
+				ToBasis2(REND3PTINSCOLORS[rpi].rgba[3]/2.0f * a));
 #endif
 				v[0] = pit->rend[rpi];
 				v[1] = cp->rend[rpi];

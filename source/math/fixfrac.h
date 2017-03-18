@@ -13,9 +13,9 @@
 //#define INTBASIS	int32_t
 //typedef long double INTBASIS;
 
-//#define GLTYPE		GL_FLOAT
+#define GLTYPE		GL_FLOAT
 
-//#define BIGN		INTBASIS((uint64_t(0)-1)/1024/1024/1024/512)
+#define BIGN		INTBASIS((uint64_t(0)-1)/1024/1024/1024/512)
 //#define BIGN		(uint32_t(-1)/1024/1024)
 //
 
@@ -54,12 +54,7 @@ public:
 	FixFrac(INTBASIS i);
 	FixFrac(double i);
 	FixFrac(int64_t i);
-	FixFrac(int i)
-	{
-		neg = (i<0)?true:false;
-		n = INTBASIS(i);
-		d = INTBASIS(1);
-	}
+	FixFrac(int i);
 #endif	
 
 	bool operator==(const FixFrac b) const;
@@ -71,15 +66,11 @@ public:
 	
 	bool operator<(const FixFrac b) const;
 	bool operator<=(const FixFrac b) const;
-	FixFrac operator*(const FixFrac b) const;
-	FixFrac operator*(const double b) const;
-	FixFrac operator/(const FixFrac b) const;
 	//b%dv = b-(b/dv)*dv
 	//better to define b%dv = (0>=|b|>dv)
 	//while(|b|>=dv) { if(b>=0) b-=dv else b+=dv }	dv>0
 	FixFrac operator%(const FixFrac b) const;
 	FixFrac operator-(const FixFrac b) const;
-	FixFrac operator-() const;
 	FixFrac operator+(const FixFrac b) const;
 	//this gives problem in g++, saying it must have one argument, but says "*this" is not
 	//a member of the class if trying to use one in .cpp
@@ -92,6 +83,11 @@ public:
 	FixFrac operator /=(const FixFrac b);
 };
 #endif
+
+	FixFrac operator-(const FixFrac a);
+	FixFrac operator*(const FixFrac a, const FixFrac b);
+	FixFrac operator*(const FixFrac a, const double b);
+	FixFrac operator/(const FixFrac a, const FixFrac b);
 
 //typedef float FixFrac;
 

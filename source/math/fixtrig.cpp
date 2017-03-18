@@ -126,6 +126,8 @@ FixFrac sin(FixFrac rad)
 		r = r + last;
 		i = (i-ToFrac(1)) * ToFrac(2) + ToFrac(1);
 	}
+
+	return r;
 }
 
 //http://math.stackexchange.com/questions/1238965/working-out-tan-x-using-sin-and-cos-expansion
@@ -134,7 +136,7 @@ FixFrac tan(FixFrac rad)
 	//sinx = cosx tanx
 	//sinx/cosx = tanx
 
-	return (sin(x)/cos(x));
+	return (sin(rad)/cos(rad));
 }
 
 #define ATRIGSTEPS	10000000

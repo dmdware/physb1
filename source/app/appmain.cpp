@@ -259,7 +259,10 @@ void DrawScene()
 	g_mvp.set(projection.m_matrix);
 	g_mvp.postmult(viewmat);
 	g_mvp.postmult(modelmat);
-	glUniformMatrix4fv(s->slot[SSLOT_MVP], 1, 0, g_mvp.m_matrix);
+	float mvpf[16];
+	for(int mvpi=0; mvpi<16; ++mvpi)
+		mvpf[mvpi] = ToBasis2(g_mvp.m_matrix[mvpi]);
+	glUniformMatrix4fv(s->slot[SSLOT_MVP], 1, 0, mvpf);
 
 	//FixFrac color[4]={1,1,1,1};
 	//Vec3f v = Vec3f(0,0,0);
